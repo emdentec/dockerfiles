@@ -1,6 +1,6 @@
 # Lets Encrypt Docker Image
 
-The purpose of this image is to allow letsencrypt to be used alongside `nginx` by using volumes. To use it you will need a [data container](http://container42.com/2014/11/18/data-only-container-madness/) for letsencrypt and an nginx image that forwards to other containers. The example below shows how to secure a jenkins image using this method.
+The purpose of this image is to allow letsencrypt to be used alongside `nginx` by using volumes. To use it you will need a [data container](http://container42.com/2014/11/18/data-only-container-madness/) for letsencrypt and an nginx image that forwards to other containers. The example below shows how to secure a jenkins container using this method.
 
 ```bash
 # Create a jenkins container
