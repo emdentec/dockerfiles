@@ -52,7 +52,7 @@ proxy_set_header X-Real-IP $remote_addr;
 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 proxy_set_header X-Forwarded-Proto $proxy_x_forwarded_proto;
 
-ssl_certificate /etc/letsencrypt/live/jenkins.example.com/cert.pem;
+ssl_certificate /etc/letsencrypt/live/jenkins.example.com/fullchain.pem;
 ssl_certificate_key /etc/letsencrypt/live/jenkins.example.com/privkey.pem;
 
 server {
