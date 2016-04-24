@@ -105,7 +105,7 @@ if [[ "$1" = 'b2' ]]; then
         fi
 
         # Get the latest backup file info
-        LATEST_UPLOAD_ID=$(b2 ls --long $BUCKET_NAME | grep $BACKUP_ARCHIVE_NAME | awk '{print $1}')
+        LATEST_UPLOAD_ID=$(b2 ls --long $BUCKET_NAME | grep "\b$BACKUP_ARCHIVE_NAME\b" | awk '{print $1}')
 
         # Exit if no existing backups
         if [[ -z $LATEST_UPLOAD_ID ]]; then
