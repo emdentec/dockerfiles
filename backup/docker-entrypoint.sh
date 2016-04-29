@@ -29,6 +29,9 @@ b2 authorize_account ${ACCOUNT_ID} ${APPLICATION_KEY}
 
 if [[ "$1" = 'b2' ]]; then
 
+    # Switch to /tmp because that's where everything happens
+    cd /tmp
+
     # Get the ID of the bucket if it exists
     B2_BUCKET_ID=$(b2 list_buckets | grep ${BUCKET_NAME} | awk '{print $1}')
 
@@ -43,10 +46,15 @@ if [[ "$1" = 'b2' ]]; then
         fi
 
         echo "Backing up to bucket $BUCKET_NAME with ID $B2_BUCKET_ID..."
-        echo "Archiving directory..."
 
-        # Create the backup archive
-        tar -C $(dirname $VOLUME) -cjf "$BACKUP_ARCHIVE_NAME" $(basename $VOLUME)
+        echo "Copying directory to /tmp..."
+        cp "$VOLUME" "/tmp/${BACKUP_NAME}" -R
+
+        echo "Archiving directory..."
+        tar -cjf "$BACKUP_ARCHIVE_NAME" "${BACKUP_NAME}"
+
+        echo "Erasing directory copy /tmp..."
+        rm -rf "/tmp/${BACKUP_NAME}"
 
         # Get the sha1 of the archive
         SHA_1=$(openssl dgst -sha1 $BACKUP_ARCHIVE_NAME | awk '{print $2;}')
@@ -116,12 +124,13 @@ if [[ "$1" = 'b2' ]]; then
         b2 download_file_by_id $LATEST_UPLOAD_ID $BACKUP_ARCHIVE_NAME
 
         # Extract the file data
-        tar xfj $BACKUP_ARCHIVE_NAME
+        tar xfj "$BACKUP_ARCHIVE_NAME"
 
-        cp "$(basename $VOLUME)/." "$VOLUME/" -R
+        cp "/tmp/$BACKUP_NAME/." "$VOLUME/" -R
         chown -R $(stat $VOLUME -c %u:%g) $VOLUME
 
         rm $BACKUP_ARCHIVE_NAME
+        rm -rf "/tmp/$BACKUP_NAME"
     fi
 else
     exec "$@"
