@@ -15,5 +15,7 @@ RUN apt-get update > /dev/null && \
 
 COPY ./docker-entrypoint.sh /
 
+VOLUME /var/lib/emdentec/backup/tmp
+
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["b2", "backup"]
