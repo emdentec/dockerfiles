@@ -105,9 +105,9 @@ if [[ "$1" = 'b2' ]]; then
             echo "No surplus file versions."
         fi
 
-        # Remove everything in the ephermeral directory
-        rm -rf /var/lib/emdentec/backup/tmp/{*,.*}
-        
+        # Remove everything in the ephermeral directory (echo to prevent error code)
+        rm -rf /var/lib/emdentec/backup/tmp/{*,.*} || echo "Removed ephemeral files"
+
     elif [[ "$2" = 'restore' ]]; then
 
         # Exit if the bucket doesn't exist
@@ -125,8 +125,8 @@ if [[ "$1" = 'b2' ]]; then
             exit
         fi
 
-        # Remove everything in the ephermeral directory
-        rm -rf /var/lib/emdentec/backup/tmp/{*,.*}
+        # Remove everything in the ephermeral directory (echo to prevent error code)
+        rm -rf /var/lib/emdentec/backup/tmp/{*,.*} || echo "Removed ephemeral files"
 
         b2 download_file_by_id $LATEST_UPLOAD_ID $BACKUP_ARCHIVE_NAME
 
