@@ -47,7 +47,7 @@ if [[ "$1" = 'b2' ]]; then
 
         echo "Backing up to bucket $BUCKET_NAME with ID $B2_BUCKET_ID..."
 
-        if [ ! "$(ls -A "$VOLUME" ]; then
+        if [ ! "$(ls -A "$VOLUME)" ]; then
             echo "$VOLUME is empty, aborting."
             exit 1
         fi
